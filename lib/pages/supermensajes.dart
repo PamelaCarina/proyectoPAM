@@ -38,6 +38,8 @@ class _supermensajesState extends State<supermensajes>{
       drawer: const sideBar(),
       appBar: AppBar(
         backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+        centerTitle:true,
         title: Text('Supermensajes',
             style: TextStyle(color:Colors.black,fontSize: 25)
         ),
