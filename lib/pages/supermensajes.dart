@@ -9,12 +9,14 @@ class supermensajes extends StatefulWidget {
 }
 
 class _supermensajesState extends State<supermensajes>{
-  Future getMensaje() async {
-    var response= await http.get(Uri.https('https://40fd422c6d4d.sa.ngrok.io','/api/mensajes'));
+  List<Mensaje> _listamensaje=[];
+  _getMensaje() async {
+    var response= await http.get(Uri.https('https://40fd422c6d4d.sa.ngrok.io','api/mensajes'));
     final document=  xml.XmlDocument.parse(response.body);
     final mensajesNode = document.findElements('ArrayOfMensajes').first;
     final mensajes= mensajesNode.findElements('Mensajes');
     List<Mensaje> message=[];
+    print(Global.login);
     for(final mensaje in mensajes){
       if(mensaje.findElements('login').first.text==Global.login){ //si es el mensaje del usuario
         final fecha= mensaje.findElements('fecha').first.text;
@@ -25,7 +27,15 @@ class _supermensajesState extends State<supermensajes>{
         message.add(msg);
       }
     }
-    return message;
+    print(message.length);
+    setState((){
+      _listamensaje=message;
+    });
+  }
+  @override
+  void initState(){
+    super.initState();
+    _getMensaje();
   }
   @override
   Widget build(BuildContext context){
@@ -34,38 +44,32 @@ class _supermensajesState extends State<supermensajes>{
         backgroundColor: Colors.white,
         title: Text('Supermensajes'),
       ),
-      body: Container(
-        child: Card(child: FutureBuilder(
-          future: getMensaje(),
-          builder: (context, AsyncSnapshot snapshot){
-            if (snapshot.data==null){
-              return Container(
-                child: const Center(child:Text('Cargando...'),
-                ),
-              );
-              } else
-                return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context,i){
-                      return ListTile(
-                      title: Text(snapshot.data[i].titulo),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(snapshot.data[i].descripcion),
-                          Text(snapshot.data[i].fecha),
-                          Text(snapshot.data[i].login),
-                    ],
-                  ),
-                );
-              });
-          },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical:20),
+        child: ListView.builder(
+          itemBuilder: (context,index) => Card(
+            key: ValueKey(_listamensaje[index].login),
+            margin: const EdgeInsets.symmetric(vertical:5,horizontal:15),
+            color: Colors.lightBlueAccent,
+            elevation: 4,
+            child: ListTile(
+              title: Text(_listamensaje[index].titulo),
+              subtitle:Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(_listamensaje[index].descripcion),
+                  Text(_listamensaje[index].login),
+                  Text(_listamensaje[index].fecha)
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 }
+
 
 class Mensaje{
   final String fecha, login, titulo, descripcion;

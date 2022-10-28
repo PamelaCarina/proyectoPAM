@@ -35,12 +35,9 @@ class sideBar extends StatelessWidget{
     Navigator.pop(context);
     switch(index){
       case 0:
-        Navigator.push(context,MaterialPageRoute(builder: (context)=> const ingreso()));
-        break;
-      case 1:
         Navigator.push(context,MaterialPageRoute(builder: (context)=> const integrantes()));
         break;
-      case 2:
+      case 1:
         Navigator.push(context,MaterialPageRoute(builder: (context)=> const login()));
         break;
       default:
