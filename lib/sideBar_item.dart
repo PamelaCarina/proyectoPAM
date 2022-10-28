@@ -13,7 +13,7 @@ class sideBarItem extends StatelessWidget{
           height:40,
           child: Row(
             children: [
-              Text(name, style: const TextStyle(fontSize:20,color:Colors.blue))
+              Text(name, style:  TextStyle(fontSize:20,color:Colors.black87))
             ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:xml/xml.dart' as xml;
-import 'package:democlase3/global.dart';
 import 'package:http/http.dart' as http;
-
+import 'dart:convert';
+import 'package:democlase3/global.dart';
+import 'package:democlase3/sideBar.dart';
 class supermensajes extends StatefulWidget {
   @override
   _supermensajesState createState() => _supermensajesState();
@@ -10,23 +10,18 @@ class supermensajes extends StatefulWidget {
 
 class _supermensajesState extends State<supermensajes>{
   List<Mensaje> _listamensaje=[];
+
   _getMensaje() async {
-    var response= await http.get(Uri.https('https://40fd422c6d4d.sa.ngrok.io','api/mensajes'));
-    final document=  xml.XmlDocument.parse(response.body);
-    final mensajesNode = document.findElements('ArrayOfMensajes').first;
-    final mensajes= mensajesNode.findElements('Mensajes');
-    List<Mensaje> message=[];
-    print(Global.login);
-    for(final mensaje in mensajes){
-      if(mensaje.findElements('login').first.text==Global.login){ //si es el mensaje del usuario
-        final fecha= mensaje.findElements('fecha').first.text;
-        final login= mensaje.findElements('login').first.text;
-        final titulo= mensaje.findElements('titulo').first.text;
-        final descripcion= mensaje.findElements('descripcion').first.text;
-        Mensaje msg= Mensaje(fecha,login,titulo,descripcion);
-        message.add(msg);
+      List<Mensaje> message=[];
+      final response = await http.get(Uri.parse('https://40fd422c6d4d.sa.ngrok.io/api/mensajes'));
+      final jsonData= json.decode(response.body);
+      for(var u in jsonData) {
+        if(u['login']==Global.login) {
+          Mensaje msg = Mensaje(
+              u['fecha'], u['login'], u['titulo'], u['texto']);
+          message.add(msg);
+        }
       }
-    }
     print(message.length);
     setState((){
       _listamensaje=message;
@@ -40,9 +35,12 @@ class _supermensajesState extends State<supermensajes>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
+      drawer: const sideBar(),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Supermensajes'),
+        title: Text('Supermensajes',
+            style: TextStyle(color:Colors.black,fontSize: 25)
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical:20),
@@ -64,6 +62,7 @@ class _supermensajesState extends State<supermensajes>{
               ),
             ),
           ),
+          itemCount:_listamensaje.length,
         ),
       ),
     );

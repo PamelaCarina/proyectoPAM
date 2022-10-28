@@ -35,9 +35,12 @@ class sideBar extends StatelessWidget{
     Navigator.pop(context);
     switch(index){
       case 0:
-        Navigator.push(context,MaterialPageRoute(builder: (context)=> const integrantes()));
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>  ingreso()));
         break;
       case 1:
+        Navigator.push(context,MaterialPageRoute(builder: (context)=> const integrantes()));
+        break;
+      case 2:
         Navigator.push(context,MaterialPageRoute(builder: (context)=> const login()));
         break;
       default:
@@ -45,4 +48,5 @@ class sideBar extends StatelessWidget{
         break;
     }
   }
+
 }
