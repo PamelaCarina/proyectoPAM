@@ -23,7 +23,7 @@ class _loginState extends State<login> {
     final response = await LoginService().validar(email, password);
     if (response.statusCode == 200) {
 
-      await pref.setString('usuario', email);
+      await pref.setString('email', email);
 
       Global.login = email;
       Navigator.push(
@@ -44,7 +44,7 @@ class _loginState extends State<login> {
   @override
   void cargaPreferencia() async {
     pref = await SharedPreferences.getInstance();
-    login_guardado = pref.getString("usuario");
+    login_guardado = pref.getString("email");
     emailController.text = login_guardado == null ? "" : login_guardado!;
   }
 
@@ -104,7 +104,7 @@ class _loginState extends State<login> {
                               backgroundColor: Colors.red,
                               textColor: Colors.white,
                               fontSize: 16.0);
-                        } else {
+                        }else {
                           validarDatos(
                               emailController.text, passwordController.text);
                         }
