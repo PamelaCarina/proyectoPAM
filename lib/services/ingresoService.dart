@@ -6,7 +6,7 @@ import 'package:democlase3/postMensaje.dart';
 class IngresoService {
   Future<postMensaje> validar(String titulo, String descripcion) async {
     final response = await http.post(
-      Uri.parse('https://40fd422c6d4d.sa.ngrok.io/api/mensajes'),
+      Uri.parse('${Global.url}/api/mensajes'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
