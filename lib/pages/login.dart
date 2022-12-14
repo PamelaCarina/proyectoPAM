@@ -63,12 +63,11 @@ class _loginState extends State<login> {
             children: [
               const Text('Wakala 1.0'),
               sizedBox,
-
               SizedBox(
-                 width: 400,
-                 height: 200,
-                 child: Image.asset('assets/capi.png', fit: BoxFit.fill),
-               ),
+                width: 400,
+                height: 200,
+                child: Image.asset('assets/capi.png', fit: BoxFit.fill),
+              ),
               sizedBox,
               TextField(
                   controller: emailController,
