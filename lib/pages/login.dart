@@ -61,11 +61,14 @@ class _loginState extends State<login> {
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
-              // SizedBox(
-              //   width: 400,
-              //   height: 200,
-              //   child: Image.asset('assets/tocho.jpg', fit: BoxFit.fill),
-              // ),
+              const Text('Wakala 1.0'),
+              sizedBox,
+
+              SizedBox(
+                 width: 400,
+                 height: 200,
+                 child: Image.asset('assets/capi.png', fit: BoxFit.fill),
+               ),
               sizedBox,
               TextField(
                   controller: emailController,
@@ -109,19 +112,33 @@ class _loginState extends State<login> {
                               emailController.text, passwordController.text);
                         }
                       },
-                      child: Text("Acceder ඞ"))),
+                      child: Text("Ingresar"))),
               sizedBox,
               GestureDetector(
                   onLongPress: () {
-                    print("Longpress");
+
                   },
                   onTap: () {
-                    print("hola");
+
                   },
                   child: Text(
                     "¿Olvido su password?",
                     style: TextStyle(color: Colors.blue),
-                  ))
+                  )),
+              sizedBox,
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children:[
+                    const Text('by'),
+                    Column(
+                      children:[
+                      const Text('Pamela Pinilla'),
+                      const Text('Carlos Venegas')
+                      ]
+                    )
+                  ],
+              )
             ],
           ),
         ),
