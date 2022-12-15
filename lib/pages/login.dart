@@ -1,7 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'principal.dart';
-import 'supermensajes.dart';
+import 'listado.dart';
 import 'package:democlase3/global.dart';
 import 'package:democlase3/services/loginService.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,7 @@ class _loginState extends State<login> {
 
       Global.login = email;
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => supermensajes()));
+          context, MaterialPageRoute(builder: (context) => listadowakalas()));
     } else {
       CoolAlert.show(
         context: context,

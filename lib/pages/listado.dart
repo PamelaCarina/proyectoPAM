@@ -3,34 +3,39 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:democlase3/global.dart';
 import 'package:democlase3/sideBar.dart';
-class supermensajes extends StatefulWidget {
+
+class listadowakalas extends StatefulWidget {
   @override
-  _supermensajesState createState() => _supermensajesState();
+  _listadowakalasState createState() => _listadowakalasState();
 }
 
-class _supermensajesState extends State<supermensajes>{
-  List<Mensaje> _listamensaje=[];
+class _listadowakalasState extends State<listadowakalas>{
+  List<ListadoWakalas> _listadowakalas=[];
 
-  _getMensaje() async {
-      List<Mensaje> message=[];
-      final response = await http.get(Uri.parse('https://40fd422c6d4d.sa.ngrok.io/api/mensajes'));
-      final jsonData= json.decode(response.body);
-      for(var u in jsonData) {
-        if(u['login']==Global.login) {
-          Mensaje msg = Mensaje(
-              u['fecha'], u['login'], u['titulo'], u['texto']);
-          message.add(msg);
-        }
+  _getListadoWakalas() async {
+    List<ListadoWakalas> message=[];
+    var fechassinhora = [];
+    final response = await http.get(Uri.parse('${Global.url}/api/wuakalasApi/Getwuakalas'));
+    final jsonData= json.decode(response.body);
+    for(var u in jsonData) {
+      //aki quiero sacarle la hora a la fecha
+      print(u['fecha']);
+      for(var v in u['fecha']){
+
       }
+      ListadoWakalas msg = ListadoWakalas(
+          u['id'], u['sector'], u['autor'], u['fecha']);
+      message.add(msg);
+    }
     //print(message.length);
     setState((){
-      _listamensaje=message;
+      _listadowakalas=message;
     });
   }
   @override
   void initState(){
     super.initState();
-    _getMensaje();
+    _getListadoWakalas();
   }
   @override
   Widget build(BuildContext context){
@@ -40,7 +45,7 @@ class _supermensajesState extends State<supermensajes>{
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle:true,
-        title: Text('Supermensajes',
+        title: Text('Listado de Wakalas',
             style: TextStyle(color:Colors.black,fontSize: 25)
         ),
       ),
@@ -48,23 +53,22 @@ class _supermensajesState extends State<supermensajes>{
         padding: const EdgeInsets.symmetric(vertical:20),
         child: ListView.builder(
           itemBuilder: (context,index) => Card(
-            key: ValueKey(_listamensaje[index].login),
+            key: ValueKey(_listadowakalas[index].id),
             margin: const EdgeInsets.symmetric(vertical:5,horizontal:15),
             color: Colors.lightBlueAccent,
             elevation: 4,
             child: ListTile(
-              title: Text(_listamensaje[index].titulo),
+              title: Text(_listadowakalas[index].sector),
               subtitle:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_listamensaje[index].descripcion),
-                  Text(_listamensaje[index].login),
-                  Text(_listamensaje[index].fecha)
+                  Text(_listadowakalas[index].autor),
+                  Text(_listadowakalas[index].fecha)
                 ],
               ),
             ),
           ),
-          itemCount:_listamensaje.length,
+          itemCount:_listadowakalas.length,
         ),
       ),
     );
@@ -72,7 +76,8 @@ class _supermensajesState extends State<supermensajes>{
 }
 
 
-class Mensaje{
-  final String fecha, login, titulo, descripcion;
-  Mensaje(this.fecha,this.login,this.titulo,this.descripcion);
+class ListadoWakalas{
+  int id;
+  String sector, autor, fecha;
+  ListadoWakalas(this.id,this.sector,this.autor,this.fecha);
 }
