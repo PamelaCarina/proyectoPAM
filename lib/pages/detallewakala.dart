@@ -2,6 +2,8 @@ import 'principal.dart';
 import 'package:flutter/material.dart';
 import 'package:democlase3/services/detallewakalaService.dart';
 import 'package:democlase3/global.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class detallewakala extends StatefulWidget {
   const detallewakala({super.key});
@@ -10,21 +12,29 @@ class detallewakala extends StatefulWidget {
 }
 
 class _detallewakalaState extends State<detallewakala> {
-  List<Wakala> _listaWakala=[];
+  late Wakala _detallewakala;
   // TODO : logica de fetch desde detalleservicio en API
   _getDetalleWakala() async{
-    List<Wakala> infoWakala=[];
+    late Wakala wakala;
     final response= await DetalleWakalaService().validar(Global.wakalaID);
-
+    final jsonData= json.decode(response.body);
+    for(var u in jsonData) {
+      List<Comentario> comm=[];
+      for(var i in jsonData.comentarios){
+        comm.add(Comentario(i['id'],i['descripcion'],i['fecha_comentario'],i['autor']));
+      }
+      wakala= Wakala(u['id'],u['sector'],u['descripcion'],u['fecha_publicacion'],u['autor'],u['url_foto1'],u['url_foto2'],u['sigue_ahi'],u['ya_no_esta'], comm);
+    }
     setState((){
-      _listaWakala=infoWakala;
+      _detallewakala=wakala;
     });
-
+    print(_detallewakala.id);
   }
 
   @override
   void initState() {
     super.initState();
+    _getDetalleWakala();
   }
   Widget build(BuildContext context){return Scaffold();}
 }

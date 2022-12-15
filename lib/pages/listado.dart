@@ -1,3 +1,4 @@
+import 'package:democlase3/pages/detallewakala.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -20,9 +21,9 @@ class _listadowakalasState extends State<listadowakalas>{
     for(var u in jsonData) {
       //aki quiero sacarle la hora a la fecha
       print(u['fecha']);
-      for(var v in u['fecha']){
+      //for(var u in u['fecha']){
 
-      }
+      //}
       ListadoWakalas msg = ListadoWakalas(
           u['id'], u['sector'], u['autor'], u['fecha']);
       message.add(msg);
@@ -59,6 +60,12 @@ class _listadowakalasState extends State<listadowakalas>{
             elevation: 4,
             child: ListTile(
               title: Text(_listadowakalas[index].sector),
+              trailing: const Icon(Icons.arrow_forward_ios ),
+              onTap: (){
+                _listadowakalas[index].id=Global.wakalaID;
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => const detallewakala()));
+              },
               subtitle:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
