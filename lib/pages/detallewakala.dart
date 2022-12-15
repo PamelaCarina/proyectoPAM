@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class detallewakala extends StatefulWidget {
-  const detallewakala({super.key});
+  final int index;
+  const detallewakala({super.key, required this.index});
   @override
   _detallewakalaState createState() => _detallewakalaState();
 }
@@ -16,7 +17,11 @@ class _detallewakalaState extends State<detallewakala> {
   // TODO : logica de fetch desde detalleservicio en API
   _getDetalleWakala() async{
     late Wakala wakala;
-    final response= await DetalleWakalaService().validar(Global.wakalaID);
+
+    final response= await DetalleWakalaService().validar(widget.index);
+    if(response.statusCode!=200){
+      print('error');
+    }
     final jsonData= json.decode(response.body);
     for(var u in jsonData) {
       List<Comentario> comm=[];
