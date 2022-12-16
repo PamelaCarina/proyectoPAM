@@ -20,9 +20,9 @@ class _listadowakalasState extends State<listadowakalas>{
     for(var u in jsonData) {
       //aki quiero sacarle la hora a la fecha
       print(u['fecha']);
-      for(var v in u['fecha']){
+      //for(var v in u['fecha']){
 
-      }
+      //}
       ListadoWakalas msg = ListadoWakalas(
           u['id'], u['sector'], u['autor'], u['fecha']);
       message.add(msg);
