@@ -62,6 +62,7 @@ class _listadowakalasState extends State<listadowakalas>{
               title: Text(_listadowakalas[index].sector),
               trailing: const Icon(Icons.arrow_forward_ios ),
               onTap: (){
+                Global.wakalaID=_listadowakalas[index].id;
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => detallewakala(index : _listadowakalas[index].id)));
               },

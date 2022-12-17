@@ -6,7 +6,7 @@ import 'package:democlase3/global.dart';
 import 'package:democlase3/services/loginService.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'dart:convert';
 class login extends StatefulWidget {
   const login({super.key});
 
@@ -22,10 +22,11 @@ class _loginState extends State<login> {
   Future<void> validarDatos(String email, String password) async {
     final response = await LoginService().validar(email, password);
     if (response.statusCode == 200) {
-
+      final jsonData= json.decode(response.body);
       await pref.setString('email', email);
-
+      Global.id_usuario= jsonData['id'];
       Global.login = email;
+      Global.nombre=jsonData['nombre'];
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => listadowakalas()));
     } else {

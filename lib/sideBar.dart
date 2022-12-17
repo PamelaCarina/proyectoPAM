@@ -14,14 +14,6 @@ class sideBar extends StatelessWidget{
           child: Column(
             children:[
               sideBarItem(
-                name: 'Agregar',
-                onPressed: ()=> onItemPressed(context, index:0)
-              ),
-              sideBarItem(
-                name: 'Integrantes',
-                onPressed: ()=> onItemPressed(context,index:1)
-              ),
-              sideBarItem(
                   name: 'Salir',
                   onPressed: ()=> onItemPressed(context,index:2)
               ),
@@ -35,12 +27,6 @@ class sideBar extends StatelessWidget{
     Navigator.pop(context);
     switch(index){
       case 0:
-        Navigator.push(context,MaterialPageRoute(builder: (context)=>  ingreso()));
-        break;
-      case 1:
-        Navigator.push(context,MaterialPageRoute(builder: (context)=> const integrantes()));
-        break;
-      case 2:
         Navigator.push(context,MaterialPageRoute(builder: (context)=> const login()));
         break;
       default:
