@@ -21,17 +21,19 @@ class _detallewakalaState extends State<detallewakala> {
   int _yanoesta=0;
   int _sigueahi=0;
 
-  Future<void> _navegaryseleccionarComentario(BuildContext context) async {
-    final comentario = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const wcomentario()),
-    );
+  _actualizarComentarios() async{
+    List<Comentario> comm=[];
+    final response= await DetalleWakalaService().validar(widget.index);
+    if(response.statusCode!=200){
+      print('error');
+    }
+    final jsonData= json.decode(response.body);
+    for(var i in jsonData['comentarios']){
+      comm.add(Comentario(i['id'], i['descripcion'],i['autor'],i['fecha_comentario']));
+    }
     setState((){
-      if(comentario!=null){
-        _comentarios.add(Comentario(_comentarios.length+1,comentario.descripcion,Global.nombre,comentario.fecha_comentario));
-      }
+      _comentarios=comm;
     });
-    if (!mounted) return;
   }
   _getDetalleWakala() async{
     List<Comentario> comm=[];
@@ -101,8 +103,12 @@ class _detallewakalaState extends State<detallewakala> {
               ],
             ),
             ElevatedButton(
-                onPressed: (){
-                  _navegaryseleccionarComentario(context);
+                onPressed: () async{
+                  final val = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const wcomentario()));
+                      _actualizarComentarios();
+                      print(_comentarios.last.descripcion);
                 },
                 child: const Text('Comentar')
             )

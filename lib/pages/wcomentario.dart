@@ -1,9 +1,9 @@
 
 import 'package:democlase3/services/comentarioService.dart';
-import 'package:democlase3/postComentario.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 
 class wcomentario extends StatefulWidget{
   const wcomentario({super.key});
@@ -13,6 +13,9 @@ class wcomentario extends StatefulWidget{
 
 class _wcomentarioState extends State<wcomentario>{
   TextEditingController descripcionController=TextEditingController();
+
+
+
   Widget build(BuildContext context){
     const sizedBox = const SizedBox(height: 30);
     return Scaffold(
@@ -45,7 +48,8 @@ class _wcomentarioState extends State<wcomentario>{
                 }
                 else{
                   final  comentario= await ComentarioService().validar(descripcionController.text);
-                  Navigator.pop(context,comentario);
+                  print(comentario.statusCode);
+                  Navigator.pop(context);
                 }
               },
               child: Text('Comentar Wakala'),
@@ -53,7 +57,7 @@ class _wcomentarioState extends State<wcomentario>{
             sizedBox,
             ElevatedButton(
                 onPressed: (){
-                  Navigator.pop(context,null);
+                  Navigator.pop(context);
                 },
                 child: Text('Me arrepenti'),
             )
