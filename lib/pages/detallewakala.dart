@@ -108,9 +108,31 @@ class _detallewakalaState extends State<detallewakala> {
                       context,
                       MaterialPageRoute(builder: (context) => const wcomentario()));
                       _actualizarComentarios();
-                      print(_comentarios.last.descripcion);
                 },
                 child: const Text('Comentar')
+            ),
+            Expanded(
+            child: SizedBox(
+              height:200.0,
+              child:  ListView.builder(
+                itemBuilder: (context,index) => Card(
+                key: ValueKey(_comentarios[index].id),
+                margin: const EdgeInsets.symmetric(vertical:5,horizontal:15),
+                color: Colors.lightBlueAccent,
+                elevation: 4,
+                child: ListTile(
+                  title: Text(_comentarios[index].descripcion),
+                  subtitle:Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('por' +_comentarios[index].autor),
+                      ],
+                   ),
+                  ),
+                ),
+              itemCount:_comentarios.length,
+              ),
+            )
             )
           ],
         )
