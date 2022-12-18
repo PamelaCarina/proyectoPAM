@@ -37,18 +37,13 @@ class _wcomentarioState extends State<wcomentario>{
             ElevatedButton(
               onPressed: ()async{
                 if(descripcionController.text.length==0){
-                  Fluttertoast.showToast(
-                      msg: "Comentario no puede estar vacio",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('El comentario no puede estar vacio')));
                 }
                 else{
                   final  comentario= await ComentarioService().validar(descripcionController.text);
-                  print(comentario.statusCode);
+                  ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text('Comentario escrito')));
                   Navigator.pop(context);
                 }
               },

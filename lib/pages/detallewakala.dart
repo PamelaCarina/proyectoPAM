@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:democlase3/services/detallewakalaService.dart';
 import 'package:democlase3/global.dart';
-import 'package:democlase3/postComentario.dart';
-import 'package:http/http.dart' as http;
+
 import 'dart:convert';
 import 'detallefoto.dart';
 import'wcomentario.dart';
@@ -35,7 +34,16 @@ class _detallewakalaState extends State<detallewakala> {
       _comentarios=comm;
     });
   }
+  _putSigueAhi() async{
+    final response = await DetalleWakalaService().putSigueAhi(widget.index);
+
+  }
+  _putYaNoEsta() async{
+   final response = await DetalleWakalaService().putYaNoEsta(widget.index);
+  }
+
   _getDetalleWakala() async{
+    Global.wakalaID=widget.index;
     List<Comentario> comm=[];
     final response= await DetalleWakalaService().validar(widget.index);
     if(response.statusCode!=200){
@@ -48,6 +56,8 @@ class _detallewakalaState extends State<detallewakala> {
     setState((){
       _detallewakala=Wakala(jsonData['id'],jsonData['sector'],jsonData['descripcion'],jsonData['fecha_publicacion'],jsonData['autor'],jsonData['url_foto1'],jsonData['url_foto2'],jsonData['sigue_ahi'],jsonData['ya_no_esta']);
       _comentarios=comm;
+      _sigueahi=_detallewakala.sigue_ahi;
+      _yanoesta=_detallewakala.ya_no_esta;
     });
   }
   yanoesta(){
@@ -101,6 +111,20 @@ class _detallewakalaState extends State<detallewakala> {
                   }
                 )
               ],
+            ),
+            Row(
+              children:[
+                ElevatedButton(onPressed: (){
+                  _putSigueAhi();
+                  sigueahi();
+                },
+                    child: Text('Sigue ahi ($_sigueahi)')),
+                ElevatedButton(onPressed: (){
+                  _putYaNoEsta();
+                  yanoesta();
+                },
+                    child: Text('Ya no esta ($_yanoesta)'))
+              ]
             ),
             ElevatedButton(
                 onPressed: () async{
