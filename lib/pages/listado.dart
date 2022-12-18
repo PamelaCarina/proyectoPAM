@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:democlase3/global.dart';
 import 'package:democlase3/sideBar.dart';
+import 'agregarnuevowakala.dart';
 
 class listadowakalas extends StatefulWidget {
   @override
@@ -50,6 +51,15 @@ class _listadowakalasState extends State<listadowakalas>{
             style: TextStyle(color:Colors.black,fontSize: 25)
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        onPressed: () => {
+        Navigator.push(
+        context, MaterialPageRoute(builder: (context) => nuevowakala()))
+        },
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical:20),
         child: ListView.builder(
@@ -65,6 +75,7 @@ class _listadowakalasState extends State<listadowakalas>{
                 Global.wakalaID=_listadowakalas[index].id;
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => detallewakala(index : _listadowakalas[index].id)));
+                _getListadoWakalas();
               },
               subtitle:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
