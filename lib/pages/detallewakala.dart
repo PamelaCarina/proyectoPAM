@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:democlase3/services/detallewakalaService.dart';
 import 'package:democlase3/global.dart';
-import 'package:democlase3/postComentario.dart';
-import 'package:http/http.dart' as http;
+
 import 'dart:convert';
 import 'detallefoto.dart';
 import'wcomentario.dart';
@@ -16,7 +15,7 @@ class detallewakala extends StatefulWidget {
 }
 
 class _detallewakalaState extends State<detallewakala> {
-  late Wakala _detallewakala;
+  Wakala? _detallewakala =null;
   List<Comentario> _comentarios=[];
   int _yanoesta=0;
   int _sigueahi=0;
@@ -35,7 +34,16 @@ class _detallewakalaState extends State<detallewakala> {
       _comentarios=comm;
     });
   }
+  _putSigueAhi() async{
+    final response = await DetalleWakalaService().putSigueAhi(widget.index);
+
+  }
+  _putYaNoEsta() async{
+   final response = await DetalleWakalaService().putYaNoEsta(widget.index);
+  }
+
   _getDetalleWakala() async{
+    Global.wakalaID=widget.index;
     List<Comentario> comm=[];
     final response= await DetalleWakalaService().validar(widget.index);
     if(response.statusCode!=200){
@@ -48,6 +56,8 @@ class _detallewakalaState extends State<detallewakala> {
     setState((){
       _detallewakala=Wakala(jsonData['id'],jsonData['sector'],jsonData['descripcion'],jsonData['fecha_publicacion'],jsonData['autor'],jsonData['url_foto1'],jsonData['url_foto2'],jsonData['sigue_ahi'],jsonData['ya_no_esta']);
       _comentarios=comm;
+      _sigueahi=_detallewakala!.sigue_ahi;
+      _yanoesta=_detallewakala!.ya_no_esta;
     });
   }
   yanoesta(){
@@ -62,17 +72,18 @@ class _detallewakalaState extends State<detallewakala> {
   }
   @override
   void initState() {
-    super.initState();
     _getDetalleWakala();
+    super.initState();
   }
   @override
   Widget build(BuildContext context){
     return Scaffold(
+
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle:true,
-        title: Text(_detallewakala.sector,
+        title: Text(_detallewakala?.sector ?? '',
             style: TextStyle(color:Colors.black,fontSize: 25)
         ),
       ),
@@ -80,27 +91,41 @@ class _detallewakalaState extends State<detallewakala> {
         child: Column(
           children: [
             SizedBox(height: 30),
-             Text(_detallewakala.descripcion,
+             Text(_detallewakala?.descripcion ?? '',
             textAlign: TextAlign.center,
              ),
             SizedBox(height:50),
             Row(
               children: [
                 GestureDetector(
-                  child:Image.network('${Global.url}/images/' +_detallewakala.url_foto1,height: 150.0,width: 150.0),
+                  child:Image.network('${Global.url}/images/${_detallewakala?.url_foto1 ?? ''}',height: 150.0,width: 150.0),
                   onTap: (){
                     Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => detallefoto(url_foto : _detallewakala.url_foto1)));
+                        context, MaterialPageRoute(builder: (context) => detallefoto(url_foto : _detallewakala!.url_foto1)));
                   }
                 ),
                 GestureDetector(
-                  child:Image.network('${Global.url}/images/' +_detallewakala.url_foto2,height: 150.0,width: 150.0),
+                  child:Image.network('${Global.url}/images/${_detallewakala?.url_foto2 ?? ''}',height: 150.0,width: 150.0),
                   onTap:(){
                     Navigator.push(
-                      context,MaterialPageRoute(builder: (context)=> detallefoto(url_foto : _detallewakala.url_foto2)));
+                      context,MaterialPageRoute(builder: (context)=> detallefoto(url_foto : _detallewakala!.url_foto2)));
                   }
                 )
               ],
+            ),
+            Row(
+              children:[
+                ElevatedButton(onPressed: (){
+                  _putSigueAhi();
+                  sigueahi();
+                },
+                    child: Text('Sigue ahi ($_sigueahi)')),
+                ElevatedButton(onPressed: (){
+                  _putYaNoEsta();
+                  yanoesta();
+                },
+                    child: Text('Ya no esta ($_yanoesta)'))
+              ]
             ),
             ElevatedButton(
                 onPressed: () async{

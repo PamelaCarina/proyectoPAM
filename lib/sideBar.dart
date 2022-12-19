@@ -2,8 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:democlase3/sideBar_item.dart';
 import 'package:democlase3/pages/login.dart';
-import 'package:democlase3/pages/ingreso.dart';
-import 'package:democlase3/pages/integrantes.dart';
+
 class sideBar extends StatelessWidget{
   const sideBar({Key? key}) : super(key: key);
   @override

@@ -1,6 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'principal.dart';
 import 'listado.dart';
 import 'package:democlase3/global.dart';
 import 'package:democlase3/services/loginService.dart';
@@ -99,14 +98,8 @@ class _loginState extends State<login> {
                           primary: Colors.indigo, shape: StadiumBorder()),
                       onPressed: () {
                         if (emailController.text.length == 0) {
-                          Fluttertoast.showToast(
-                              msg: "Ingrese un email valido",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0);
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text('El usuario no puede estar vacio')));
                         }else {
                           validarDatos(
                               emailController.text, passwordController.text);
