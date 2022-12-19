@@ -1,9 +1,10 @@
-
 import 'package:democlase3/services/comentarioService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:democlase3/sideBar.dart';
+import 'camara.dart';
+import 'package:camera/camera.dart';
 
 
 class nuevowakala extends StatefulWidget{
@@ -13,8 +14,8 @@ class nuevowakala extends StatefulWidget{
 }
 
 class _nuevowakalaState extends State<nuevowakala>{
+  TextEditingController sectorController=TextEditingController();
   TextEditingController descripcionController=TextEditingController();
-
 
 
   Widget build(BuildContext context){
@@ -47,6 +48,7 @@ class _nuevowakalaState extends State<nuevowakala>{
             //sizedBox,*/
             SizedBox(
               width: 250,
+              height: 80,
               child: TextField(
                 decoration: InputDecoration(
                   labelText: 'Sector',
@@ -54,14 +56,15 @@ class _nuevowakalaState extends State<nuevowakala>{
                   border: OutlineInputBorder(),
                 ),
                 style: TextStyle(fontSize: 25),
-                maxLines: 3,
-                minLines: 2,
-                controller: descripcionController,
+                maxLines: 20,
+                minLines: 5,
+                controller: sectorController,
               ),
             ),
             sizedBox,
             SizedBox(
-              width: 450,
+              width: 350,
+              height: 120,
               child: TextField(
                 decoration: InputDecoration(
                   labelText: 'Descripción',
@@ -69,16 +72,45 @@ class _nuevowakalaState extends State<nuevowakala>{
                   border: OutlineInputBorder(),
                 ),
                 style: TextStyle(fontSize: 25),
-                maxLines: 3,
-                minLines: 2,
+                maxLines: 150,
+                minLines: 15,
                 controller: descripcionController,
               ),
             ),
+            Row(
+              children: [
+                MaterialButton(
+                    color: Colors.green,
+                    child: const Text(
+                        "Foto 1",
+                        style: TextStyle(
+                            color: Colors.white70, fontWeight: FontWeight.bold
+                        )
+                    ),
+                    onPressed: () async {
+                      await availableCameras().then((value) => Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => CameraPage(cameras: value))));
+                    },
+                ),
+                MaterialButton(
+                    color: Colors.green,
+                    child: const Text(
+                        "Foto 2",
+                        style: TextStyle(
+                            color: Colors.white70, fontWeight: FontWeight.bold
+                        )
+                    ),
+                    onPressed: () {
+                    }
+                ),
+              ]
+            ),
+
 
 
             ElevatedButton(
               onPressed: ()async{
-                if(descripcionController.text.length==0){
+                if(sectorController.text.length == 0 || descripcionController.text.length==0){
                   Fluttertoast.showToast(
                       msg: "Por favor llena todos los campos",
                       toastLength: Toast.LENGTH_SHORT,
