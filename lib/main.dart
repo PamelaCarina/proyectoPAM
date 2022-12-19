@@ -1,7 +1,7 @@
 import 'package:democlase3/pages/login.dart';
 import 'package:flutter/material.dart';
-
-void main() {
+import 'package:camera/camera.dart';
+void main()  {
   runApp(const MyApp());
 }
 

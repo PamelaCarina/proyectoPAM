@@ -4,4 +4,5 @@ class Global {
   static String url= "https://d22292e4f79c.sa.ngrok.io";
   static int wakalaID=0;
   static String nombre="";
+
 }

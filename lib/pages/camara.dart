@@ -1,11 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'preview_page.dart';
-
+import 'agregarnuevowakala.dart';
 class CameraPage extends StatefulWidget {
-  const CameraPage({Key? key, required this.cameras}) : super(key: key);
-
+  const CameraPage({Key? key, required this.cameras, required this.esFoto1}) : super(key: key);
+  final bool esFoto1;
   final List<CameraDescription>? cameras;
 
   @override
@@ -38,12 +37,12 @@ class _CameraPageState extends State<CameraPage> {
     try {
       await _cameraController.setFlashMode(FlashMode.off);
       XFile picture = await _cameraController.takePicture();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PreviewPage(
-                picture: picture,
-              )));
+
+      if(widget.esFoto1) {
+        Navigator.pop(context,picture);
+      }else{
+        Navigator.pop(context,picture);
+      }
     } on CameraException catch (e) {
       debugPrint('Error occured while taking picture: $e');
       return null;

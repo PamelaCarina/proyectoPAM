@@ -13,18 +13,11 @@ class listadowakalas extends StatefulWidget {
 
 class _listadowakalasState extends State<listadowakalas>{
   List<ListadoWakalas> _listadowakalas=[];
-
   _getListadoWakalas() async {
     List<ListadoWakalas> message=[];
-    var fechassinhora = [];
     final response = await http.get(Uri.parse('${Global.url}/api/wuakalasApi/Getwuakalas'));
     final jsonData= json.decode(response.body);
     for(var u in jsonData) {
-      //aki quiero sacarle la hora a la fecha
-      print(u['fecha']);
-      //for(var u in u['fecha']){
-
-      //}
       ListadoWakalas msg = ListadoWakalas(
           u['id'], u['sector'], u['autor'], u['fecha']);
       message.add(msg);
@@ -71,9 +64,9 @@ class _listadowakalasState extends State<listadowakalas>{
             child: ListTile(
               title: Text(_listadowakalas[index].sector),
               trailing: const Icon(Icons.arrow_forward_ios ),
-              onTap: (){
+              onTap: () async{
                 Global.wakalaID=_listadowakalas[index].id;
-                Navigator.push(
+                final response= await Navigator.push(
                     context, MaterialPageRoute(builder: (context) => detallewakala(index : _listadowakalas[index].id)));
                 _getListadoWakalas();
               },

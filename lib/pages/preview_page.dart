@@ -5,7 +5,7 @@ import 'dart:io';
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.picture}) : super(key: key);
 
-  final XFile picture;
+  final XFile? picture;
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,9 @@ class PreviewPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Preview Page')),
       body: Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Image.file(File(picture.path), fit: BoxFit.cover, width: 250),
+          Image.file(File(picture!.path), fit: BoxFit.cover, width: 250),
           const SizedBox(height: 24),
-          Text(picture.name)
+          Text(picture!.name)
         ]),
       ),
     );

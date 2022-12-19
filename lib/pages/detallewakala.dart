@@ -70,6 +70,24 @@ class _detallewakalaState extends State<detallewakala> {
       ++_sigueahi;
     });
   }
+  imagen1Widget(){
+    if(_detallewakala?.url_foto1==""){
+      return Icon(
+        Icons.error_outline,
+        size: 70,
+      );
+    }
+    return Image.network('${Global.url}/images/${_detallewakala?.url_foto1 ?? ''}',height: 150.0,width: 150.0);
+  }
+  imagen2Widget(){
+    if(_detallewakala?.url_foto2==""){
+      return Icon(
+        Icons.error_outline,
+        size: 70,
+      );
+    }
+    return Image.network('${Global.url}/images/${_detallewakala?.url_foto2 ?? ''}',height: 150.0,width: 150.0);
+  }
   @override
   void initState() {
     _getDetalleWakala();
@@ -91,21 +109,22 @@ class _detallewakalaState extends State<detallewakala> {
         child: Column(
           children: [
             SizedBox(height: 30),
-             Text(_detallewakala?.descripcion ?? '',
+             Text(_detallewakala?.descripcion ?? 'Cargando',
             textAlign: TextAlign.center,
              ),
             SizedBox(height:50),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                  child:Image.network('${Global.url}/images/${_detallewakala?.url_foto1 ?? ''}',height: 150.0,width: 150.0),
+                  child:imagen1Widget(),
                   onTap: (){
                     Navigator.push(
                         context, MaterialPageRoute(builder: (context) => detallefoto(url_foto : _detallewakala!.url_foto1)));
                   }
                 ),
                 GestureDetector(
-                  child:Image.network('${Global.url}/images/${_detallewakala?.url_foto2 ?? ''}',height: 150.0,width: 150.0),
+                  child: imagen2Widget(),
                   onTap:(){
                     Navigator.push(
                       context,MaterialPageRoute(builder: (context)=> detallefoto(url_foto : _detallewakala!.url_foto2)));
@@ -114,6 +133,7 @@ class _detallewakalaState extends State<detallewakala> {
               ],
             ),
             Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children:[
                 ElevatedButton(onPressed: (){
                   _putSigueAhi();
